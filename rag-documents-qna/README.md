@@ -129,3 +129,76 @@ Use the following questions to verify the performance of the embedding retrieval
 *   What occurred in 1950 regarding UNESCO's stance on racism and anthropologists?
 *   How often does the UNESCO General Conference meet to govern the organization?
 
+
+
+Absolutely! Here’s a **comprehensive, double-checked TODO checklist** for your RAG API repository, covering **functionality, MLOps, deployment, and best practices**. You can include this in your README under a **“TODO / Future Improvements”** section.
+
+---
+
+
+# TODO / Future Improvements for RAG API
+
+### Core Functionality
+
+* Ensure **RAG retrieval + generative answer** works for all queries.
+* Support **dynamic document reloading** via `/reload?doc=filename`.
+* Limit retrieval context (`TOP_K`) to avoid very long prompts.
+* Deduplicate retrieved lines to avoid repetition in generated answers.
+* Handle empty or missing documents gracefully with error messages.
+
+### MLOps & Versioning
+
+* Version **embedding models** (e.g., `all-MiniLM-L6-v2`) and track changes.
+* Version **generative model** (e.g., `flan-t5-base`) and prompt configuration.
+* Track **document versions** (doc1.txt, doc2.txt) with Git, DVC, or manifest file.
+* Save and version **FAISS indices** for reproducibility.
+* Maintain **model + embedding + document manifest** for reproducibility.
+
+### Logging & Monitoring
+
+* Log **incoming queries** with timestamps.
+* Log **response times** for retrieval and generation.
+* Log **errors** (missing documents, generation failures).
+* Optional: Integrate **Prometheus/Grafana** for metrics.
+* Optional: Integrate **Sentry** for error tracking.
+
+### Testing & CI/CD
+
+* Unit tests for:
+
+  * `retrieve()` function correctness
+  * `generate_answer()` formatting and completeness
+* Integration tests for `/ask` endpoint (test API output for known queries).
+* CI/CD workflow (GitHub Actions / GitLab CI):
+
+  * Run tests automatically on push / pull requests
+  * Optional: Build and push Docker image
+* Docker image rebuild automation with minimal downtime.
+
+### Deployment & Scaling
+
+* Containerized deployment (Docker / Podman).
+* Limit concurrency for CPU-bound inference (16 GB RAM constraint).
+* Optional: Separate embedding and generation services for scaling.
+* Optional: GPU support for faster generation.
+* Add **reload endpoint** to dynamically switch documents without restarting.
+
+### Prompt & Model Optimization
+
+* Tune **MAX_NEW_TOKENS** for multi-line answers.
+* Tune **num_beams**, `do_sample`, `top_p`, `temperature` for readability + completeness.
+* Ensure **instructions prevent hallucination**.
+* Optionally support **multi-document queries**.
+
+### Documentation & Usability
+
+* Add instructions for **adding new documents**.
+* Add **MLOps / production practices** section.
+
+### Optional Enhancements
+
+* Add **caching layer** for repeated queries.
+* Add **source tracking** for answers (which line/doc they came from).
+* Add **multi-language support** if documents in multiple languages.
+* Add **user-friendly front-end** (simple React/Vue/Streamlit interface).
+
