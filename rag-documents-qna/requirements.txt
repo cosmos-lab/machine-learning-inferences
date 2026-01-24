@@ -1,6 +1,7 @@
 fastapi
 uvicorn
-transformers
-sentence-transformers
 faiss-cpu
+sentence-transformers
+numpy
+transformers
 torch

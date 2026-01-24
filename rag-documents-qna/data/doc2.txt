@@ -1,43 +1,27 @@
-GST Registration – Mandatory Conditions
-GST registration is mandatory if aggregate annual turnover exceeds ₹40 lakh for goods suppliers.
-GST registration is mandatory if aggregate annual turnover exceeds ₹20 lakh for service providers.
-GST registration is mandatory for inter-state suppliers.
-GST registration is mandatory for e-commerce sellers and operators.
-GST registration is mandatory for casual taxable persons.
-GST registration is mandatory for non-resident taxable persons.
-GST registration is mandatory for persons liable to pay tax under reverse charge.
 
-GST Registration – Online Application
-GST registration can be applied online through the GST portal.
-The official GST registration website is www.gst.gov.in
-.
 
-GST Registration – Documents Required
-PAN card of the applicant is required for GST registration.
-Aadhaar card of the applicant is required for GST registration.
-Proof of business address is required for GST registration.
-Bank account details are required for GST registration.
-Photograph of the applicant is required for GST registration.
+[Document: UNESCO]
 
-GST Registration – Proof of Business Address
-Proof of business address can be an electricity bill.
-Proof of business address can be a rent agreement.
-Proof of business address can be a property tax receipt.
-Rent agreement is required if the business premises are rented.
-Ownership proof is required if the business premises are owned.
+[Section: Overview and Mission]
+UNESCO (United Nations Educational, Scientific and Cultural Organization) is a specialized UN agency aimed at promoting world peace and security through international cooperation in education, arts, sciences, and culture. Headquartered in Paris, France, UNESCO has 194 member states, 12 associate members, 53 regional field offices, and 199 national commissions. Its mission is to advance peace, sustainable development, and human rights.
 
-GST Registration – Entity-wise Requirements
-GST registration for a proprietorship requires PAN and Aadhaar of the proprietor.
-GST registration for a partnership requires PAN of the firm and PAN of the partners.
-GST registration for a company requires certificate of incorporation.
+[Section: Core Programs and World Heritage]
+UNESCO operates through five major program areas: education, natural sciences, social/human sciences, culture, and communication/information. Key activities include improving literacy, technical training, protecting press freedom, and preserving cultural history. UNESCO is well-known for establishing and securing World Heritage Sites of cultural and natural importance.
 
-GST Registration – Process and Timeline
-GST registration process includes submission of application.
-GST registration process includes verification of application.
-GST registration usually takes 3 to 7 working days after successful verification.
-GST number is issued after approval of GST application.
+[Section: Governance Structure]
+UNESCO is governed by the General Conference (member states meeting biannually) and an Executive Board. The Director-General serves as the chief administrator, appointed every four years. Since 1954, Executive Board members represent their respective governments rather than acting in a personal capacity.
 
-GST Registration – Fees and GSTIN
-GST registration is free of cost on the GST portal.
-GST number is also known as GSTIN.
-GSTIN is a 15-digit unique identification number.
+[Section: Origins and Predecessors (1921-1945)]
+The origins of UNESCO date back to a 1921 League of Nations resolution. Predecessor organizations include the International Committee on Intellectual Cooperation (ICIC, 1922), featuring members like Albert Einstein and Marie Curie, and the International Institute for Intellectual Cooperation (IIIC, 1924). The International Bureau of Education (IBE) began in 1925 and joined UNESCO in 1969.
+
+[Section: Formal Creation and Constitution (1945-1946)]
+UNESCO was formally established following the 1943 Moscow Declaration and the 1945 UN Conference in London. The Constitution was signed by 37 countries on November 16, 1945, and came into force on November 4, 1946. The first Director-General was Julian Huxley. Influential figures in its creation included Rab Butler (UK) and Blake R. Van Leer (USA).
+
+[Section: Human Rights and Anti-Racism Initiatives]
+UNESCO has a long history of working against racism, notably through the 1950 declaration by anthropologists (including Claude Lévi-Strauss) and the 1978 Declaration on Race and Racial Prejudice. South Africa withdrew in 1955 over these publications but rejoined under Nelson Mandela in 1994.
+
+[Section: Educational Milestones and Global Forums]
+UNESCO's educational work includes a 1947 pilot project in Haiti and a 1949 mission to Afghanistan. Major milestones include the 1948 recommendation for universal free primary education, the 1990 Jomtien World Conference on Education for All, the 1998 World Declaration on Higher Education, and the 2000 Dakar World Education Forum.
+
+[Section: Cultural Heritage and the Nubia Campaign]
+UNESCO's cultural preservation began with the 1960 International Campaign to Save the Monuments of Nubia (including Abu Simbel) from the Nile's rising waters. This led to the 1972 Convention concerning the Protection of the World Cultural and Natural Heritage. The World Heritage Committee was established in 1976, listing the first sites in 1978.
