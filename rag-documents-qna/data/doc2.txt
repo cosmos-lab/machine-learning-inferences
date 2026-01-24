@@ -1,0 +1,43 @@
+GST Registration – Mandatory Conditions
+GST registration is mandatory if aggregate annual turnover exceeds ₹40 lakh for goods suppliers.
+GST registration is mandatory if aggregate annual turnover exceeds ₹20 lakh for service providers.
+GST registration is mandatory for inter-state suppliers.
+GST registration is mandatory for e-commerce sellers and operators.
+GST registration is mandatory for casual taxable persons.
+GST registration is mandatory for non-resident taxable persons.
+GST registration is mandatory for persons liable to pay tax under reverse charge.
+
+GST Registration – Online Application
+GST registration can be applied online through the GST portal.
+The official GST registration website is www.gst.gov.in
+.
+
+GST Registration – Documents Required
+PAN card of the applicant is required for GST registration.
+Aadhaar card of the applicant is required for GST registration.
+Proof of business address is required for GST registration.
+Bank account details are required for GST registration.
+Photograph of the applicant is required for GST registration.
+
+GST Registration – Proof of Business Address
+Proof of business address can be an electricity bill.
+Proof of business address can be a rent agreement.
+Proof of business address can be a property tax receipt.
+Rent agreement is required if the business premises are rented.
+Ownership proof is required if the business premises are owned.
+
+GST Registration – Entity-wise Requirements
+GST registration for a proprietorship requires PAN and Aadhaar of the proprietor.
+GST registration for a partnership requires PAN of the firm and PAN of the partners.
+GST registration for a company requires certificate of incorporation.
+
+GST Registration – Process and Timeline
+GST registration process includes submission of application.
+GST registration process includes verification of application.
+GST registration usually takes 3 to 7 working days after successful verification.
+GST number is issued after approval of GST application.
+
+GST Registration – Fees and GSTIN
+GST registration is free of cost on the GST portal.
+GST number is also known as GSTIN.
+GSTIN is a 15-digit unique identification number.
