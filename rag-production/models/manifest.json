@@ -1,0 +1,5 @@
+{
+  "embedding_model": "all-MiniLM-L6-v2",
+  "generator_model": "flan-t5-base",
+  "faiss_index_version": "v1.0.0"
+}
