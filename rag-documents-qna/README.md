@@ -141,8 +141,6 @@ Absolutely! Here’s a **comprehensive, double-checked TODO checklist** for your
 ### Core Functionality
 
 * Ensure **RAG retrieval + generative answer** works for all queries.
-* Support **dynamic document reloading** via `/reload?doc=filename`.
-* Limit retrieval context (`TOP_K`) to avoid very long prompts.
 * Deduplicate retrieved lines to avoid repetition in generated answers.
 * Handle empty or missing documents gracefully with error messages.
 
@@ -150,7 +148,6 @@ Absolutely! Here’s a **comprehensive, double-checked TODO checklist** for your
 
 * Version **embedding models** (e.g., `all-MiniLM-L6-v2`) and track changes.
 * Version **generative model** (e.g., `flan-t5-base`) and prompt configuration.
-* Track **document versions** (doc1.txt, doc2.txt) with Git, DVC, or manifest file.
 * Save and version **FAISS indices** for reproducibility.
 * Maintain **model + embedding + document manifest** for reproducibility.
 
