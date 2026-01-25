@@ -6,25 +6,12 @@ from app.config import EMBED_MODEL
 embed_model = SentenceTransformer(EMBED_MODEL)
 
 def load_documents(file_path):
-    """
-    Load a document given a file path.
-    Returns a list of non-empty stripped lines.
-    """
     with open(file_path, "r", encoding="utf-8") as f:
         return [line.strip() for line in f if line.strip()]
 
 def build_index(documents):
-    """
-    Build FAISS index from a list of document lines.
-    Uses cosine similarity (normalized embeddings).
-    """
-    embeddings = embed_model.encode(
-        documents,
-        normalize_embeddings=True
-    )
+    embeddings = embed_model.encode(documents, normalize_embeddings=True)
     embeddings = np.array(embeddings, dtype="float32")
-
     index = faiss.IndexFlatIP(embeddings.shape[1])
     index.add(embeddings)
-
     return index, documents
