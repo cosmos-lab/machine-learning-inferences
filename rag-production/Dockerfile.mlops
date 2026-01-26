@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+WORKDIR /mlops
+
+# Install system dependencies for FAISS and Torch
+RUN apt-get update && apt-get install -y build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir pytest
+
+# Copy MLOps scripts
+COPY mlops mlops
+COPY app app
+COPY data data
+COPY artifacts artifacts
+
+WORKDIR /mlops
+
+# Default command (can be overridden for different scripts)
+CMD ["python", "mlops/build_artifacts.py"]

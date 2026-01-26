@@ -6,6 +6,7 @@ Captures index size, embedding dimensions, top-K, and model versions for monitor
 
 import json
 import os
+from datetime import datetime
 from app.pipeline import RAGPipeline
 from app.config import DATA_PATH, META_PATH
 from app.observability import logger
@@ -23,7 +24,7 @@ if __name__ == "__main__":
             meta = json.load(f)
 
     snapshot = {
-        "timestamp": os.path.now().isoformat() if hasattr(os, 'now') else "",
+        "timestamp": datetime.utcnow().isoformat(),
         "document_path": DATA_PATH,
         "retriever_model": meta.get("embed_model"),
         "generator_model": meta.get("generator_model"),

@@ -78,7 +78,11 @@ class RAGPipeline:
             )
             return "No relevant information found."
 
-        answer = self.generator.generate(question, context)
+        try:
+            answer = self.generator.generate(question, context)
+        except Exception as e:
+            logger.error("generator_error", exc_info=True)
+            return f"Error generating answer: {str(e)}"
 
         logger.info(
             "rag_request",

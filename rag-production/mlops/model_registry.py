@@ -6,6 +6,7 @@ Supports auditing and rollback in production.
 """
 
 import json
+import os
 import hashlib
 from datetime import datetime
 from app.config import META_PATH, DATA_PATH
@@ -14,7 +15,6 @@ from app.observability import logger
 REGISTRY_FILE = "mlops/model_registry.json"
 
 def hash_file(path):
-    import hashlib
     if not os.path.exists(path):
         return None
     h = hashlib.sha256()
@@ -44,6 +44,7 @@ if __name__ == "__main__":
 
     registry.append(entry)
 
+    os.makedirs(os.path.dirname(REGISTRY_FILE), exist_ok=True)
     with open(REGISTRY_FILE, "w") as f:
         json.dump(registry, f, indent=2)
 

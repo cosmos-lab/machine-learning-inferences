@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-01-26T07:03:17.782712",
+  "document_path": "data/doc1.txt",
+  "retriever_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "generator_model": "google/flan-t5-base",
+  "top_k": 5,
+  "indexed_chunks": 15
+}
