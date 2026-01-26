@@ -69,10 +69,11 @@ Answer:
             **inputs,
             max_new_tokens=MAX_NEW_TOKENS,
             do_sample=False,
-            num_beams=4,
+            num_beams=1,
             top_p=0.9,         
-            temperature=0.7,
-            early_stopping=True 
+            temperature=0,
+             length_penalty=1.2,
+            early_stopping=False 
         )
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
