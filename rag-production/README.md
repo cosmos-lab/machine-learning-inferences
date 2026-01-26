@@ -187,6 +187,68 @@ podman run --rm -w /app -e PYTHONPATH=/app \
 
 ---
 
+## **API Reference**
+
+The RAG system exposes a simple HTTP API for querying documents, managing artifacts, and health monitoring.
+
+**Base URL (local):**
+
+```
+http://localhost:8000
+```
+
+### Ask a Question
+
+Retrieve an answer generated using retrieved document context.
+
+```
+GET /ask?q=<question>
+```
+
+**Example**
+
+```
+http://localhost:8000/ask?q=What+is+this+system+used+for?
+```
+
+---
+
+### Reload / Rebuild Documents
+
+Reloads the source documents and rebuilds the FAISS index if required.
+
+```
+GET /reload
+GET /reload?doc=data/doc1.txt
+```
+
+---
+
+### Health Check
+
+Lightweight endpoint for liveness and readiness checks.
+
+```
+GET /health
+```
+
+**Response**
+
+```json
+{ "status": "ok" }
+```
+
+---
+
+### Notes
+
+* Designed for **private and internal deployments**
+* Stateless API suitable for containerized environments
+* Authentication, authorization, and audit logging are planned as part of the **Enterprise Production Roadmap**
+
+
+---
+
 
 ## Enterprise Production Roadmap
 
