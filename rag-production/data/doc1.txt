@@ -21,3 +21,93 @@ The first step toward the UN was the Declaration of St James's Palace on June 12
 The UN Conference on International Organization opened in San Francisco on April 25, 1945, attended by 50 nations. The Charter of the United Nations was completed and signed on June 26, 1945. The UN officially came into existence at 20:07 UTC on October 24, 1945, after ratification by the five permanent members of the Security Council (U.S., U.K., France, Soviet Union, China) and a majority of other nations. The first meetings of the General Assembly and Security Council took place in London in January 1946.
 
 
+
+[Document: UNESCO]
+
+[Section: Overview and Mission]
+UNESCO (United Nations Educational, Scientific and Cultural Organization) is a specialized UN agency aimed at promoting world peace and security through international cooperation in education, arts, sciences, and culture. Headquartered in Paris, France, UNESCO has 194 member states, 12 associate members, 53 regional field offices, and 199 national commissions. Its mission is to advance peace, sustainable development, and human rights.
+
+[Section: Core Programs and World Heritage]
+UNESCO operates through five major program areas: education, natural sciences, social/human sciences, culture, and communication/information. Key activities include improving literacy, technical training, protecting press freedom, and preserving cultural history. UNESCO is well-known for establishing and securing World Heritage Sites of cultural and natural importance.
+
+[Section: Governance Structure]
+UNESCO is governed by the General Conference (member states meeting biannually) and an Executive Board. The Director-General serves as the chief administrator, appointed every four years. Since 1954, Executive Board members represent their respective governments rather than acting in a personal capacity.
+
+[Section: Origins and Predecessors (1921-1945)]
+The origins of UNESCO date back to a 1921 League of Nations resolution. Predecessor organizations include the International Committee on Intellectual Cooperation (ICIC, 1922), featuring members like Albert Einstein and Marie Curie, and the International Institute for Intellectual Cooperation (IIIC, 1924). The International Bureau of Education (IBE) began in 1925 and joined UNESCO in 1969.
+
+[Section: Formal Creation and Constitution (1945-1946)]
+UNESCO was formally established following the 1943 Moscow Declaration and the 1945 UN Conference in London. The Constitution was signed by 37 countries on November 16, 1945, and came into force on November 4, 1946. The first Director-General was Julian Huxley. Influential figures in its creation included Rab Butler (UK) and Blake R. Van Leer (USA).
+
+[Section: Human Rights and Anti-Racism Initiatives]
+UNESCO has a long history of working against racism, notably through the 1950 declaration by anthropologists (including Claude Lévi-Strauss) and the 1978 Declaration on Race and Racial Prejudice. South Africa withdrew in 1955 over these publications but rejoined under Nelson Mandela in 1994.
+
+[Section: Educational Milestones and Global Forums]
+UNESCO's educational work includes a 1947 pilot project in Haiti and a 1949 mission to Afghanistan. Major milestones include the 1948 recommendation for universal free primary education, the 1990 Jomtien World Conference on Education for All, the 1998 World Declaration on Higher Education, and the 2000 Dakar World Education Forum.
+
+[Section: Cultural Heritage and the Nubia Campaign]
+UNESCO's cultural preservation began with the 1960 International Campaign to Save the Monuments of Nubia (including Abu Simbel) from the Nile's rising waters. This led to the 1972 Convention concerning the Protection of the World Cultural and Natural Heritage. The World Heritage Committee was established in 1976, listing the first sites in 1978.
+
+
+[Document: UNICEF]
+
+[Section: Organizational Overview]
+
+UNICEF (United Nations Children’s Fund) is a United Nations agency dedicated to providing humanitarian and developmental assistance to children and mothers worldwide. Founded on 11 December 1946 as the United Nations International Children’s Emergency Fund, it became a permanent part of the UN system in 1953 while retaining the UNICEF acronym. UNICEF operates in over 190 countries and territories and focuses on child survival, development, protection, and rights.
+
+[Section: Mission and Core Programs]
+
+UNICEF’s core mission is to promote the health, education, protection, and well-being of children globally. Its major programmatic areas include immunization and disease prevention, maternal and child nutrition, water and sanitation, education access, HIV/AIDS prevention and treatment, child protection, and emergency humanitarian response. UNICEF emphasizes community-based service delivery and long-term development alongside emergency relief.
+
+[Section: Historical Formation and Evolution]
+
+UNICEF was established in the aftermath of World War II to provide emergency relief to children and mothers affected by the conflict. Polish health expert Ludwik Rajchman played a key role in proposing and shaping the organization. Initially focused on short-term relief such as food and clothing, UNICEF’s mandate expanded in 1950 to address long-term child welfare, particularly in developing countries. In 1953, it became a permanent UN body.
+
+[Section: Governance Structure]
+
+UNICEF is governed by a 36-member Executive Board composed of government representatives elected by the UN Economic and Social Council for three-year terms. The Executive Board sets policy, approves programs, and oversees budgets and administrative plans. A Bureau consisting of a President and four Vice-Presidents coordinates board activities. UNICEF’s headquarters is located in New York City, where overall management and administration are conducted.
+
+[Section: Organizational Presence and Operations]
+
+UNICEF maintains a global operational network consisting of approximately 150 country offices, seven regional offices, and multiple headquarters and support facilities. Regional offices provide technical assistance to country programs. UNICEF’s Supply Division, based primarily in Copenhagen and New York, manages procurement and distribution of essential supplies such as vaccines, nutrition products, and emergency relief materials.
+
+[Section: Funding Model and Financial Structure]
+
+UNICEF relies entirely on voluntary contributions from governments, private donors, corporations, and foundations. As of 2024, UNICEF reported total income of approximately USD 8.61 billion. Public-sector partners provide the majority of funding, while private-sector contributions account for roughly one-third of annual income. UNICEF publishes financial and program data through the International Aid Transparency Initiative (IATI).
+
+[Section: National Committees and Fundraising]
+
+UNICEF operates through 34 independent National Committees, primarily in developed countries. These committees raise funds, advocate for children’s rights, and support UNICEF programs globally. Well-known fundraising initiatives include “Trick-or-Treat for UNICEF,” greeting card sales, corporate partnerships, and public campaigns involving sports organizations and cultural figures.
+
+[Section: Partnerships and Sponsorships]
+
+UNICEF collaborates with governments, corporations, sports organizations, and NGOs to support its programs. Notable partnerships include FC Barcelona, various European football clubs, global corporations such as Montblanc and Merck, and international sporting events. UNICEF also engages with companies to promote responsible business practices aligned with children’s rights.
+
+[Section: Research and Knowledge Generation]
+
+UNICEF’s research arm, the Innocenti Research Centre in Florence, Italy, was established in 1988. The center supports evidence-based policy development, research on children’s rights, and global advocacy. It focuses on generating strategic knowledge, fostering research partnerships, and disseminating findings to policymakers and practitioners.
+
+[Section: Child Participation and Digital Initiatives]
+
+UNICEF operates initiatives aimed at youth engagement and digital participation, including U-Report, a mobile-based social monitoring platform active in dozens of countries. Programs such as UNICEF Kid Power encourage children to participate in humanitarian action through technology-enabled activities linked to nutrition aid.
+
+[Section: Ethical and Policy Positions]
+
+UNICEF supports family planning education, maternal health services, HIV/AIDS prevention strategies, and child rights–based approaches to development. It collaborates with WHO and other UN agencies on reproductive health programs. UNICEF promotes legal recognition and protection for children in diverse family structures and advocates for laws aligned with the Convention on the Rights of the Child.
+
+[Section: Monitoring, Transparency, and Accountability]
+
+UNICEF regularly publishes data on aid spending and program implementation through international transparency frameworks. It has been assessed by independent watchdogs and consistently ranks highly in global aid transparency indexes. Internal oversight mechanisms are in place to address misconduct, fraud, and operational failures.
+
+[Section: Controversies and Criticism]
+
+UNICEF has faced criticism related to adoption policies, program effectiveness, mismanagement of funds, and responses to child mortality challenges. It has also been involved in controversies concerning sexual misconduct by aid workers, surveillance by intelligence agencies, and debates over political neutrality. These issues have prompted internal reforms, public scrutiny, and policy reviews.
+
+[Section: Humanitarian Response and Emergency Aid]
+
+UNICEF plays a major role in global emergency response, providing nutrition, healthcare, education supplies, and child protection services during conflicts, natural disasters, and public health crises. It has responded to hundreds of humanitarian emergencies annually and remains a key implementing partner in UN-led relief efforts.
+
+[Section: Global Recognition and Impact]
+
+UNICEF has received international recognition for its humanitarian work, including the Nobel Peace Prize (1965). Its programs have contributed to significant improvements in child survival, vaccination coverage, access to education, and emergency relief delivery worldwide.
+
