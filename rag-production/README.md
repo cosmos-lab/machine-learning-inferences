@@ -100,7 +100,7 @@ podman build -f Dockerfile.mlops -t rag_production_mlops:latest .
 ### Run API
 
 ```bash
-podman run --rm -p 8001:8000 \
+podman run --rm -p 8000:8000 \
   -v $(pwd)/app:/app/app:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
