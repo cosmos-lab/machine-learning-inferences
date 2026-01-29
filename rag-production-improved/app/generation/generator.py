@@ -25,8 +25,8 @@ class Generator:
 
         self.model.to(self.device)
         self.model.eval()
-
         torch.set_grad_enabled(False)
+
         self.max_new_tokens = max_new_tokens
 
     def generate(self, question: str, context: list[str]) -> str:
@@ -57,3 +57,5 @@ Answer:
             )
 
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+

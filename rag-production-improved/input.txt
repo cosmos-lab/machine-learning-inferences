@@ -1,0 +1,314 @@
+###__FILE_SEPARATOR__### app/config/settings.py
+import os
+
+EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+GEN_MODEL = os.getenv("GEN_MODEL", "google/flan-t5-base")
+
+TOP_K = int(os.getenv("TOP_K", 3))
+
+MAX_NEW_TOKENS = int(os.getenv("MAX_NEW_TOKENS", 256))
+MIN_NEW_TOKENS = int(os.getenv("MIN_NEW_TOKENS", 20))
+
+REPETITION_PENALTY = float(os.getenv("REPETITION_PENALTY", 1.1))
+NO_REPEAT_NGRAM_SIZE = int(os.getenv("NO_REPEAT_NGRAM_SIZE", 3))
+
+DO_SAMPLE = False
+NUM_BEAMS = 1
+TEMPERATURE = 0.0
+EARLY_STOPPING = False
+LENGTH_PENALTY = 1.2
+
+DATA_PATH = os.getenv("DATA_PATH", "data/doc1.txt")
+
+ARTIFACT_DIR = "artifacts"
+INDEX_DIR = f"{ARTIFACT_DIR}/index"
+META_DIR = f"{ARTIFACT_DIR}/meta"
+
+INDEX_PATH = f"{INDEX_DIR}/faiss.index"
+META_PATH = f"{META_DIR}/index.json"
+
+
+###__FILE_SEPARATOR__### app/observability/logger.py
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+)
+
+logger = logging.getLogger("rag")
+
+
+###__FILE_SEPARATOR__### app/observability/metrics.py
+import time
+from contextlib import contextmanager
+from app.observability.logger import logger
+
+@contextmanager
+def track(stage: str):
+    start = time.perf_counter()
+    yield
+    elapsed = (time.perf_counter() - start) * 1000
+    logger.info(
+        "latency",
+        extra={"stage": stage, "latency_ms": round(elapsed, 2)},
+    )
+
+
+###__FILE_SEPARATOR__### app/retrieval/faiss_factory.py
+import faiss
+from app.observability.logger import logger
+
+def build_faiss_index(embeddings, use_gpu: bool = True, nlist: int = 128):
+    dim = embeddings.shape[1]
+
+    if embeddings.shape[0] < nlist:
+        index = faiss.IndexFlatIP(dim)
+        index.add(embeddings)
+        return index
+
+    quantizer = faiss.IndexFlatIP(dim)
+    index = faiss.IndexIVFFlat(
+        quantizer,
+        dim,
+        nlist,
+        faiss.METRIC_INNER_PRODUCT,
+    )
+    index.train(embeddings)
+    index.add(embeddings)
+    index.nprobe = min(8, nlist)
+
+    if use_gpu and faiss.get_num_gpus() > 0:
+        try:
+            res = faiss.StandardGpuResources()
+            index = faiss.index_cpu_to_gpu(res, 0, index)
+            logger.info("faiss_gpu_enabled")
+        except Exception:
+            logger.warning("faiss_gpu_failed_fallback_cpu")
+
+    return index
+
+
+###__FILE_SEPARATOR__### app/retrieval/retriever.py
+import threading
+import faiss
+from sentence_transformers import SentenceTransformer
+from app.retrieval.faiss_factory import build_faiss_index
+from app.observability.logger import logger
+
+class Retriever:
+    def __init__(self, model_name: str, top_k: int):
+        self.model = SentenceTransformer(model_name)
+        self.top_k = top_k
+        self.index = None
+        self.documents = []
+        self._lock = threading.Lock()
+
+    def build(self, documents: list[str]):
+        embeddings = self.model.encode(
+            documents,
+            batch_size=64,
+            normalize_embeddings=True,
+            convert_to_numpy=True,
+            show_progress_bar=True,
+        ).astype("float32")
+
+        index = build_faiss_index(embeddings)
+
+        with self._lock:
+            self.index = index
+            self.documents = documents
+
+        logger.info(
+            "index_built",
+            extra={
+                "documents_indexed": len(documents),
+                "index_type": type(index).__name__,
+            },
+        )
+
+    def load_index(self, index: faiss.Index, documents: list[str]):
+        with self._lock:
+            self.index = index
+            self.documents = documents
+
+    def retrieve(self, query: str) -> list[str]:
+        with self._lock:
+            if self.index is None:
+                return []
+
+            q = self.model.encode(
+                [query],
+                normalize_embeddings=True,
+                convert_to_numpy=True,
+            ).astype("float32")
+
+            _, ids = self.index.search(q, self.top_k)
+            return [self.documents[i] for i in ids[0] if i < len(self.documents)]
+
+
+###__FILE_SEPARATOR__### app/generation/generator.py
+import torch
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from app.config.settings import (
+    MIN_NEW_TOKENS,
+    MAX_NEW_TOKENS,
+    DO_SAMPLE,
+    NUM_BEAMS,
+    TEMPERATURE,
+    REPETITION_PENALTY,
+    NO_REPEAT_NGRAM_SIZE,
+    LENGTH_PENALTY,
+    EARLY_STOPPING,
+)
+
+class Generator:
+    def __init__(self, model_name: str, max_new_tokens: int):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            low_cpu_mem_usage=True,
+        )
+
+        self.model.to(self.device)
+        self.model.eval()
+        torch.set_grad_enabled(False)
+
+        self.max_new_tokens = max_new_tokens
+
+    def generate(self, question: str, context: list[str]) -> str:
+        prompt = f"""Answer using only the context.
+
+Context:
+{chr(10).join(context)}
+
+Question:
+{question}
+
+Answer:
+"""
+        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
+
+        with torch.inference_mode():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=MAX_NEW_TOKENS,
+                min_new_tokens=MIN_NEW_TOKENS,
+                do_sample=DO_SAMPLE,
+                num_beams=NUM_BEAMS,
+                temperature=TEMPERATURE,
+                repetition_penalty=REPETITION_PENALTY,
+                no_repeat_ngram_size=NO_REPEAT_NGRAM_SIZE,
+                length_penalty=LENGTH_PENALTY,
+                early_stopping=EARLY_STOPPING,
+            )
+
+        return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+
+###__FILE_SEPARATOR__### app/core/pipeline.py
+import os
+import json
+import faiss
+from datetime import datetime
+from app.retrieval.retriever import Retriever
+from app.generation.generator import Generator
+from app.observability.metrics import track
+from app.config.settings import (
+    EMBED_MODEL,
+    GEN_MODEL,
+    TOP_K,
+    MAX_NEW_TOKENS,
+    INDEX_PATH,
+    META_PATH,
+    INDEX_DIR,
+    META_DIR,
+)
+
+class RAGPipeline:
+    def __init__(self):
+        self.retriever = Retriever(EMBED_MODEL, TOP_K)
+        self.generator = Generator(GEN_MODEL, MAX_NEW_TOKENS)
+
+        os.makedirs(INDEX_DIR, exist_ok=True)
+        os.makedirs(META_DIR, exist_ok=True)
+
+    def load_from_file(self, file_path: str, force_rebuild: bool = False):
+        with open(file_path, "r", encoding="utf-8") as f:
+            docs = [l.strip() for l in f if l.strip()]
+
+        if os.path.exists(INDEX_PATH) and not force_rebuild:
+            index = faiss.read_index(INDEX_PATH)
+            self.retriever.load_index(index, docs)
+        else:
+            self.retriever.build(docs)
+            faiss.write_index(self.retriever.index, INDEX_PATH)
+
+            with open(META_PATH, "w") as f:
+                json.dump(
+                    {
+                        "embed_model": EMBED_MODEL,
+                        "generator_model": GEN_MODEL,
+                        "top_k": TOP_K,
+                        "created_at": datetime.utcnow().isoformat(),
+                    },
+                    f,
+                    indent=2,
+                )
+
+    def answer(self, question: str) -> str:
+        with track("retrieval"):
+            context = self.retriever.retrieve(question)
+
+        if not context:
+            return "No relevant information found."
+
+        with track("generation"):
+            return self.generator.generate(question, context)
+
+
+###__FILE_SEPARATOR__### app/core/async_pipeline.py
+import asyncio
+from app.core.pipeline import RAGPipeline
+
+class AsyncRAGPipeline(RAGPipeline):
+    async def a_answer(self, question: str) -> str:
+        loop = asyncio.get_running_loop()
+
+        context = await loop.run_in_executor(
+            None,
+            self.retriever.retrieve,
+            question,
+        )
+
+        if not context:
+            return "No relevant information found."
+
+        return await loop.run_in_executor(
+            None,
+            self.generator.generate,
+            question,
+            context,
+        )
+
+
+###__FILE_SEPARATOR__### app/api/main.py
+from fastapi import FastAPI, Query
+from app.core.async_pipeline import AsyncRAGPipeline
+from app.config.settings import DATA_PATH
+
+app = FastAPI(title="Optimized RAG API")
+
+pipeline = AsyncRAGPipeline()
+pipeline.load_from_file(DATA_PATH)
+
+@app.get("/ask")
+async def ask(q: str = Query(...)):
+    return {"question": q, "answer": await pipeline.a_answer(q)}
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}

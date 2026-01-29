@@ -1,6 +1,7 @@
 import threading
 import faiss
 from sentence_transformers import SentenceTransformer
+from app.retrieval.faiss_factory import build_faiss_index
 from app.observability.logger import logger
 
 class Retriever:
@@ -20,22 +21,7 @@ class Retriever:
             show_progress_bar=True,
         ).astype("float32")
 
-        dim = embeddings.shape[1]
-
-        if len(documents) < 10000:
-            index = faiss.IndexFlatIP(dim)
-            index.add(embeddings)
-        else:
-            quantizer = faiss.IndexFlatIP(dim)
-            index = faiss.IndexIVFFlat(
-                quantizer,
-                dim,
-                128,
-                faiss.METRIC_INNER_PRODUCT,
-            )
-            index.train(embeddings)
-            index.add(embeddings)
-            index.nprobe = 8
+        index = build_faiss_index(embeddings)
 
         with self._lock:
             self.index = index
@@ -67,3 +53,5 @@ class Retriever:
 
             _, ids = self.index.search(q, self.top_k)
             return [self.documents[i] for i in ids[0] if i < len(self.documents)]
+
+
