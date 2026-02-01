@@ -90,7 +90,7 @@ podman build -f Dockerfile -t rag-production-improved:latest .
 ### Build MLOps container
 
 ```bash
-podman build -f Dockerfile.mlops -t rag-production-mlops:latest .
+podman build -f Dockerfile.mlops -t rag-production-improved-mlops:latest .
 ```
 
 ---
@@ -110,44 +110,18 @@ podman run --rm -p 8000:8000 \
 ### MLOps Scripts (Podman)
 
 ```bash
-# Build Artifacts
 podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/app:/app/app:Z \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag-production-mlops:latest \
-  python mlops/build_artifacts.py
-
-# Evaluate RAG
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag-production-mlops:latest \
-  python mlops/evaluate_rag.py
-
-# Update Model Registry
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag-production-mlops:latest \
-  python mlops/model_registry.py
-
-# Create Monitoring Snapshot
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag-production-mlops:latest \
-  python mlops/monitoring_snapshot.py
+  rag-production-improved-mlops:latest \
+  python mlops/build/build_artifacts.py
 ```
 
-### Run Tests
+---
+
+## Evaluate RAG
 
 ```bash
 podman run --rm -w /app -e PYTHONPATH=/app \
@@ -155,8 +129,50 @@ podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag-production-mlops:latest \
-  pytest /app/mlops/tests
+  rag-production-improved-mlops:latest \
+  python mlops/evaluation/evaluate_rag.py
+```
+
+---
+
+## Update Model Registry
+
+```bash
+podman run --rm -w /app -e PYTHONPATH=/app \
+  -v $(pwd)/app:/app/app:Z \
+  -v $(pwd)/mlops:/app/mlops:Z \
+  -v $(pwd)/data:/app/data:Z \
+  -v $(pwd)/artifacts:/app/artifacts:Z \
+  rag-production-improved-mlops:latest \
+  python mlops/registry/model_registry.py
+```
+
+---
+
+## Monitoring Snapshot
+
+```bash
+podman run --rm -w /app -e PYTHONPATH=/app \
+  -v $(pwd)/app:/app/app:Z \
+  -v $(pwd)/mlops:/app/mlops:Z \
+  -v $(pwd)/data:/app/data:Z \
+  -v $(pwd)/artifacts:/app/artifacts:Z \
+  rag-production-improved-mlops:latest \
+  python mlops/monitoring/monitoring_snapshot.py
+```
+
+---
+
+## Run Tests
+
+```bash
+podman run --rm -w /app -e PYTHONPATH=/app \
+  -v $(pwd)/app:/app/app:Z \
+  -v $(pwd)/mlops:/app/mlops:Z \
+  -v $(pwd)/data:/app/data:Z \
+  -v $(pwd)/artifacts:/app/artifacts:Z \
+  rag-production-improved-mlops:latest \
+  pytest mlops/tests
 ```
 
 ---

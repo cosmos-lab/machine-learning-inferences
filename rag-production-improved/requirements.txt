@@ -6,4 +6,5 @@ transformers
 torch
 numpy
 pytest
-
+sentencepiece
+accelerate
