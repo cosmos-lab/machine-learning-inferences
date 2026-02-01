@@ -84,13 +84,13 @@ Got it! Here’s a **clear, professional phrasing** with an example for the READ
 ### Build API container
 
 ```bash
-podman build -f Dockerfile -t rag_production:latest .
+podman build -f Dockerfile -t rag-production-improved:latest .
 ```
 
 ### Build MLOps container
 
 ```bash
-podman build -f Dockerfile.mlops -t rag_production_mlops:latest .
+podman build -f Dockerfile.mlops -t rag-production-mlops:latest .
 ```
 
 ---
@@ -104,7 +104,7 @@ podman run --rm -p 8000:8000 \
   -v $(pwd)/app:/app/app:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag_production:latest
+  rag-production-improved:latest
 ```
 
 ### MLOps Scripts (Podman)
@@ -116,7 +116,7 @@ podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag_production_mlops:latest \
+  rag-production-mlops:latest \
   python mlops/build_artifacts.py
 
 # Evaluate RAG
@@ -125,7 +125,7 @@ podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag_production_mlops:latest \
+  rag-production-mlops:latest \
   python mlops/evaluate_rag.py
 
 # Update Model Registry
@@ -134,7 +134,7 @@ podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag_production_mlops:latest \
+  rag-production-mlops:latest \
   python mlops/model_registry.py
 
 # Create Monitoring Snapshot
@@ -143,7 +143,7 @@ podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag_production_mlops:latest \
+  rag-production-mlops:latest \
   python mlops/monitoring_snapshot.py
 ```
 
@@ -155,7 +155,7 @@ podman run --rm -w /app -e PYTHONPATH=/app \
   -v $(pwd)/mlops:/app/mlops:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag_production_mlops:latest \
+  rag-production-mlops:latest \
   pytest /app/mlops/tests
 ```
 

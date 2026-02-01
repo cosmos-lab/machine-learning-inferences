@@ -1,6 +1,6 @@
 ```
 ../../tools/llmcode/export_code.sh \
-  ./app,./mlops,./models \
+  ./app,./mlops \
   ./Dockerfile,Dockerfile.mlops,requirements.txt \
   __pycache__,artifacts \
   output.txt
