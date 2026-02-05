@@ -2,13 +2,12 @@ import asyncio
 from app.core.pipeline import RAGPipeline
 
 class AsyncRAGPipeline(RAGPipeline):
-    async def a_answer(self, question: str) -> str:
+    async def a_answer(self, question: str, filters: dict = None) -> str:
         loop = asyncio.get_running_loop()
 
         context = await loop.run_in_executor(
             None,
-            self.retriever.retrieve,
-            question,
+            lambda: self.retriever.retrieve(question, filters=filters),
         )
 
         if not context:

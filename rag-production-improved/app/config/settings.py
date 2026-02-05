@@ -24,6 +24,9 @@ CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 512))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 128))
 CHUNKING_STRATEGY = os.getenv("CHUNKING_STRATEGY", "semantic")  # "semantic", "recursive", "sentence"
 
+# Metadata settings
+ENABLE_METADATA = os.getenv("ENABLE_METADATA", "true").lower() == "true"
+
 ARTIFACT_DIR = "artifacts"
 INDEX_DIR = f"{ARTIFACT_DIR}/index"
 META_DIR = f"{ARTIFACT_DIR}/meta"
