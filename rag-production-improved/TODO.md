@@ -354,7 +354,7 @@ Current ingestion splits documents by line which degrades retrieval quality and 
 # IMPLEMENTATION MILESTONES
 
 ## Phase 1 - Retrieval & Reliability
-- Chunking
+- Chunking - Done
 - Metadata filtering
 - Multi-tenant isolation
 - Context management

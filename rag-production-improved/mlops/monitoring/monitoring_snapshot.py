@@ -24,6 +24,9 @@ if __name__ == "__main__":
         "generator_model": meta.get("generator_model"),
         "top_k": meta.get("top_k"),
         "indexed_chunks": len(pipeline.retriever.documents),
+        "chunking_strategy": meta.get("chunking_strategy"),
+        "chunk_size": meta.get("chunk_size"),
+        "chunk_overlap": meta.get("chunk_overlap"),
     }
 
     snapshot_file = os.path.join(SNAPSHOT_DIR, "snapshot.json")

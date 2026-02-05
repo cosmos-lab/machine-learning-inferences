@@ -81,96 +81,57 @@ Got it! Here’s a **clear, professional phrasing** with an example for the READ
 
 ## **Installation**
 
-### Build API container
-
-```bash
-podman build -f Dockerfile -t rag-production-improved:latest .
-```
-
-### Build MLOps container
-
-```bash
-podman build -f Dockerfile.mlops -t rag-production-improved-mlops:latest .
-```
-
----
-
-## **Usage**
-
 ### Run API
 
 ```bash
+podman build -f Dockerfile.dev -t rag-dev:latest .
+
 podman run --rm -p 8000:8000 \
   -v $(pwd)/app:/app/app:Z \
   -v $(pwd)/data:/app/data:Z \
   -v $(pwd)/artifacts:/app/artifacts:Z \
-  rag-production-improved:latest
+  rag-dev:latest
 ```
 
 ### MLOps Scripts (Podman)
 
 ```bash
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
+podman build -f Dockerfile.mlops -t rag-production-improved-mlops:latest .
+
+# Build Artifacts
+podman run --rm \
+  -v $(pwd)/data:/mlops/data:Z \
+  -v $(pwd)/artifacts:/mlops/artifacts:Z \
   rag-production-improved-mlops:latest \
   python mlops/build/build_artifacts.py
-```
 
----
-
-## Evaluate RAG
-
-```bash
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
+# Evaluate RAG
+podman run --rm \
+  -v $(pwd)/data:/mlops/data:Z \
+  -v $(pwd)/artifacts:/mlops/artifacts:Z \
   rag-production-improved-mlops:latest \
   python mlops/evaluation/evaluate_rag.py
-```
 
----
-
-## Update Model Registry
-
-```bash
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
+# Update Model Registry
+podman run --rm \
+  -v $(pwd)/data:/mlops/data:Z \
+  -v $(pwd)/mlops:/mlops/mlops:Z \
+  -v $(pwd)/artifacts:/mlops/artifacts:Z \
   rag-production-improved-mlops:latest \
   python mlops/registry/model_registry.py
-```
 
----
-
-## Monitoring Snapshot
-
-```bash
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
+# Monitoring Snapshot
+podman run --rm \
+  -v $(pwd)/data:/mlops/data:Z \
+  -v $(pwd)/mlops:/mlops/mlops:Z \
+  -v $(pwd)/artifacts:/mlops/artifacts:Z \
   rag-production-improved-mlops:latest \
   python mlops/monitoring/monitoring_snapshot.py
-```
 
----
-
-## Run Tests
-
-```bash
-podman run --rm -w /app -e PYTHONPATH=/app \
-  -v $(pwd)/app:/app/app:Z \
-  -v $(pwd)/mlops:/app/mlops:Z \
-  -v $(pwd)/data:/app/data:Z \
-  -v $(pwd)/artifacts:/app/artifacts:Z \
+# Run Tests
+podman run --rm \
+  -v $(pwd)/data:/mlops/data:Z \
+  -v $(pwd)/artifacts:/mlops/artifacts:Z \
   rag-production-improved-mlops:latest \
   pytest mlops/tests
 ```

@@ -8,16 +8,11 @@ RUN apt-get update && apt-get install -y build-essential \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN python -c "import nltk; nltk.download('punkt_tab', quiet=True)"
+RUN python -c "import nltk; nltk.download('punkt', quiet=True)"
 
 RUN mkdir -p artifacts
 
-COPY app app
-COPY data data
-COPY artifacts artifacts
-
 EXPOSE 8000
 
-CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
-
-
+# Don't COPY app - will be mounted as volume
+CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

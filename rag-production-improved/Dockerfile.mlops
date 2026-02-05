@@ -11,6 +11,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir pytest sentencepiece accelerate
 
+RUN python -c "import nltk; nltk.download('punkt_tab', quiet=True)"
+
 RUN mkdir -p artifacts
 
 COPY app app
@@ -21,3 +23,5 @@ COPY artifacts artifacts
 WORKDIR /mlops
 
 CMD ["python", "mlops/build/build_artifacts.py"]
+
+

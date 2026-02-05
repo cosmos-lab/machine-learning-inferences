@@ -19,11 +19,17 @@ LENGTH_PENALTY = 1.2
 
 DATA_PATH = os.getenv("DATA_PATH", "data/doc1.txt")
 
+# Chunking settings
+CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 512))
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 128))
+CHUNKING_STRATEGY = os.getenv("CHUNKING_STRATEGY", "semantic")  # "semantic", "recursive", "sentence"
+
 ARTIFACT_DIR = "artifacts"
 INDEX_DIR = f"{ARTIFACT_DIR}/index"
 META_DIR = f"{ARTIFACT_DIR}/meta"
 
 INDEX_PATH = f"{INDEX_DIR}/faiss.index"
 META_PATH = f"{META_DIR}/index.json"
+CHUNKS_PATH = f"{META_DIR}/chunks.json"
 
 

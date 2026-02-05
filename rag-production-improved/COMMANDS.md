@@ -5,6 +5,6 @@
   __pycache__,artifacts \
   output.txt
 
-../../tools/llmcode/import_code.sh input.txt ./
+../../tools/llmcode/import_code.sh output.txt ./
 
 ```
