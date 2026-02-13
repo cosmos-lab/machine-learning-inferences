@@ -51,6 +51,29 @@ Build a **production-ready Retrieval-Augmented Generation (RAG) system** in Pyth
 
 ---
 
+## ** Better flow **
+```
+Document
+   ↓
+Chunk
+   ↓
+Retriever.build()
+   ↓
+Embed
+   ↓
+Vector DB
+   ↓
+FastAPI query
+   ↓
+Retriever.retrieve()
+   ↓
+Vector DB search
+   ↓
+Chunks
+   ↓
+Generator
+```
+
 ## **Hardware Requirements & Recommendations**
 
 * **Default configuration**: Optimized for **modest hardware** (16 GB RAM, CPU-based inference, or limited GPU).
