@@ -9,3 +9,7 @@ pytest
 sentencepiece
 accelerate
 nltk
+langfuse==2.60.0
+
+
+

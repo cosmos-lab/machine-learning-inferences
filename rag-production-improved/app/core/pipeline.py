@@ -32,6 +32,12 @@ from app.generation.generator import Generator
 # Observability tool for measuring latency of each pipeline step
 from app.observability.metrics import track
 
+# Langfuse client for LLM tracing
+from app.observability.langfuse_client import langfuse
+
+# Structured logger for observability
+from app.observability.logger import logger
+
 
 # Load config values from settings
 from app.config.settings import (
@@ -194,14 +200,77 @@ class RAGPipeline:
     # ------------------------------------------
     def answer(self, question: str, filters: dict = None) -> str:
 
+        # Start Langfuse trace for the full RAG query
+        trace = None
+        if langfuse:
+            try:
+                logger.info(f"langfuse_tracing_question: {question}")
+                trace = langfuse.trace(
+                    name="rag-query",
+                    input={"question": question, "filters": filters},
+                    metadata={"top_k": TOP_K, "embed_model": EMBED_MODEL, "gen_model": GEN_MODEL},
+                )
+                logger.info(f"langfuse_trace_created: {trace.id}")
+            except Exception as e:
+                logger.warning(f"langfuse_trace_failed: {e}")
+
         # Retrieve top_k most similar chunks from FAISS
         with track("retrieval"):
+            # Langfuse span for retrieval step
+            retrieval_span = None
+            if trace:
+                try:
+                    retrieval_span = trace.span(name="retrieval", input={"question": question})
+                except Exception as e:
+                    logger.warning(f"langfuse_span_failed: {e}")
+
             context = self.retriever.retrieve(question, filters=filters)
+
+            if retrieval_span:
+                try:
+                    retrieval_span.end(output={"chunks_retrieved": len(context), "context": context})
+                except Exception as e:
+                    logger.warning(f"langfuse_span_end_failed: {e}")
 
         # If nothing retrieved
         if not context:
+            if trace:
+                try:
+                    trace.update(output={"answer": "No relevant information found."})
+                    langfuse.flush()
+                except Exception as e:
+                    logger.warning(f"langfuse_update_failed: {e}")
             return "No relevant information found."
 
         # Pass retrieved context to LLM for generation
         with track("generation"):
-            return self.generator.generate(question, context)
+            # Langfuse generation span — uses special generation() for LLM calls
+            generation_span = None
+            if trace:
+                try:
+                    generation_span = trace.generation(
+                        name="generation",
+                        model=GEN_MODEL,
+                        input={"question": question, "context": context},
+                    )
+                except Exception as e:
+                    logger.warning(f"langfuse_generation_failed: {e}")
+
+            answer = self.generator.generate(question, context)
+
+            if generation_span:
+                try:
+                    generation_span.end(output={"answer": answer})
+                except Exception as e:
+                    logger.warning(f"langfuse_generation_end_failed: {e}")
+
+        # Update trace with final answer and flush immediately
+        if trace:
+            try:
+                trace.update(output={"answer": answer})
+                langfuse.flush()
+                logger.info(f"langfuse_trace_flushed: {trace.id}")
+            except Exception as e:
+                logger.warning(f"langfuse_flush_failed: {e}")
+
+        return answer

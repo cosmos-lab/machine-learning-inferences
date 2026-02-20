@@ -35,4 +35,10 @@ INDEX_PATH = f"{INDEX_DIR}/faiss.index"
 META_PATH = f"{META_DIR}/index.json"
 CHUNKS_PATH = f"{META_DIR}/chunks.json"
 
+# Langfuse settings
+LANGFUSE_PUBLIC_KEY = os.getenv("LANGFUSE_PUBLIC_KEY", "")
+LANGFUSE_SECRET_KEY = os.getenv("LANGFUSE_SECRET_KEY", "")
+LANGFUSE_HOST = os.getenv("LANGFUSE_HOST", "http://localhost:3000")
+LANGFUSE_ENABLED = bool(LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY)
+
 

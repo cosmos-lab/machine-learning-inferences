@@ -20,6 +20,9 @@ from app.config.settings import (
     EARLY_STOPPING,        # stops generation when beams are finished
 )
 
+# Structured logger for observability
+from app.observability.logger import logger
+
 
 # Generator class handles loading the model + generating answers
 class Generator:
@@ -61,6 +64,9 @@ class Generator:
 
         # Store max token limit for generation
         self.max_new_tokens = max_new_tokens
+
+        # Store model name for Langfuse tracing
+        self.model_name = model_name
 
 
     # Method used to generate an answer from context + question
@@ -110,4 +116,19 @@ Answer:
 
         # Convert generated token IDs back to readable text
         # skip_special_tokens removes tokens like <pad>, <eos>
-        return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        answer = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+        # Log generation details
+        logger.info(
+            "generation_complete",
+            extra={
+                "question": question,
+                "answer": answer,
+                "model": self.model_name,
+                "device": str(self.device),
+            }
+        )
+
+        return answer
+
+
