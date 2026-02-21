@@ -19,7 +19,7 @@ if LANGFUSE_ENABLED:
             secret_key=LANGFUSE_SECRET_KEY,
             host=LANGFUSE_HOST,
         )
-        # test flush immediately on startup
+        # test flush immediately on startup to verify connectivity
         trace = langfuse.trace(name="startup-test", input={"status": "starting"})
         langfuse.flush()
         logger.info("langfuse_initialized_and_flushed", extra={"host": LANGFUSE_HOST})

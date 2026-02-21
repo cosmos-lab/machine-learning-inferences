@@ -24,6 +24,15 @@ class AsyncRAGPipeline(RAGPipeline):
         # Get current FastAPI event loop
         loop = asyncio.get_running_loop()
 
+        # Compute semantic drift before retrieval
+        # measures how far query is from knowledge base centroid
+        drift_score = self.retriever.compute_drift(question)
+        logger.info("semantic_drift", extra={"query": question, "drift_score": drift_score})
+
+        # Warn if query is drifting outside knowledge base
+        if drift_score > 0.5:
+            logger.warning("high_semantic_drift", extra={"query": question, "drift_score": drift_score})
+
         # Start Langfuse trace for the full RAG query
         trace = None
         if langfuse:
@@ -31,7 +40,13 @@ class AsyncRAGPipeline(RAGPipeline):
                 trace = langfuse.trace(
                     name="rag-query",
                     input={"question": question, "filters": filters},
-                    metadata={"top_k": TOP_K, "embed_model": EMBED_MODEL, "gen_model": GEN_MODEL},
+                    metadata={
+                        "top_k": TOP_K,
+                        "embed_model": EMBED_MODEL,
+                        "gen_model": GEN_MODEL,
+                        "semantic_drift": drift_score,
+                        "high_drift": drift_score > 0.5,
+                    },
                 )
                 logger.info(f"langfuse_trace_created: {trace.id}")
             except Exception as e:
@@ -97,6 +112,13 @@ class AsyncRAGPipeline(RAGPipeline):
         if trace:
             try:
                 trace.update(output={"answer": answer})
+                # Add drift as a Langfuse score — shows in Scores dashboard
+                langfuse.score(
+                    trace_id=trace.id,
+                    name="semantic_drift",
+                    value=drift_score,
+                    comment="high drift" if drift_score > 0.5 else "normal",
+                )
                 langfuse.flush()
             except Exception as e:
                 logger.warning(f"langfuse_flush_failed: {e}")

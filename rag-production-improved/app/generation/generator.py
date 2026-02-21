@@ -65,7 +65,7 @@ class Generator:
         # Store max token limit for generation
         self.max_new_tokens = max_new_tokens
 
-        # Store model name for Langfuse tracing
+        # Store model name for observability
         self.model_name = model_name
 
 
@@ -118,7 +118,7 @@ Answer:
         # skip_special_tokens removes tokens like <pad>, <eos>
         answer = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-        # Log generation details
+        # Log generation details for observability
         logger.info(
             "generation_complete",
             extra={

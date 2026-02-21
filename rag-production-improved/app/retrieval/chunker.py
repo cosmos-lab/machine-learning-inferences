@@ -71,6 +71,42 @@ class DocumentChunker:
             sentences = re.split(pattern, text)
             return [s.strip() for s in sentences if s.strip()]
 
+    def _split_long_text_by_sentences(self, text: str) -> List[str]:
+        """
+        Splits a long paragraph into chunks by sentences.
+        Called when a single paragraph exceeds chunk_size.
+
+        VECTOR DB NOTE:
+        Prevents oversized embeddings which dilute semantic meaning
+        and reduce ANN recall accuracy in FAISS / Pinecone etc.
+        """
+        sentences = self._tokenize_sentences(text)
+        chunks = []
+        current_chunk = ""
+
+        for sentence in sentences:
+
+            # If adding sentence stays within limit
+            if len(current_chunk) + len(sentence) + 1 <= self.chunk_size:
+                current_chunk += (" " if current_chunk else "") + sentence
+            else:
+                # Save current chunk
+                if current_chunk:
+                    chunks.append(current_chunk)
+
+                # If single sentence itself too long → hard split
+                if len(sentence) > self.chunk_size:
+                    for i in range(0, len(sentence), self.chunk_size - self.chunk_overlap):
+                        chunks.append(sentence[i:i + self.chunk_size])
+                    current_chunk = ""
+                else:
+                    current_chunk = sentence
+
+        if current_chunk:
+            chunks.append(current_chunk)
+
+        return chunks if chunks else [text]
+
     def chunk_text(self, text: str) -> List[str]:
         """
         Main chunking pipeline entry point.
@@ -155,6 +191,53 @@ class DocumentChunker:
             chunks.append(current_chunk)
 
         return chunks
+
+    def _recursive_chunk(self, text: str) -> List[str]:
+        """
+        Recursive splitting strategy.
+        Tries to split on paragraphs first, then sentences, then words.
+        Good middle ground between semantic and simple chunking.
+        """
+
+        # If text fits in one chunk return as is
+        if len(text) <= self.chunk_size:
+            return [text]
+
+        # Try paragraph split first
+        paragraphs = re.split(r'\n\s*\n+', text)
+        if len(paragraphs) > 1:
+            chunks = []
+            current_chunk = ""
+            for para in paragraphs:
+                if len(current_chunk) + len(para) + 1 <= self.chunk_size:
+                    current_chunk += ("\n\n" if current_chunk else "") + para
+                else:
+                    if current_chunk:
+                        chunks.append(current_chunk)
+                    if len(para) > self.chunk_size:
+                        chunks.extend(self._recursive_chunk(para))
+                        current_chunk = ""
+                    else:
+                        current_chunk = para
+            if current_chunk:
+                chunks.append(current_chunk)
+            return chunks
+
+        # Try sentence split next
+        sentences = self._tokenize_sentences(text)
+        if len(sentences) > 1:
+            return self._split_long_text_by_sentences(text)
+
+        # Fallback to simple sliding window
+        return self._simple_chunk(text)
+
+    def _sentence_chunk(self, text: str) -> List[str]:
+        """
+        Pure sentence based chunking.
+        Groups sentences until chunk_size is reached.
+        Good for documents with uniform sentence structure.
+        """
+        return self._split_long_text_by_sentences(text)
 
     def _simple_chunk(self, text: str) -> List[str]:
         """
