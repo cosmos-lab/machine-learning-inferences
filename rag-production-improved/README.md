@@ -93,6 +93,12 @@ Generator
 
 ## **Installation**
 
+### Use compose file
+```bash
+podman compose up -d --build
+
+```
+
 ### Run API
 
 ```bash
@@ -197,10 +203,27 @@ GET /ask?q=<question>
 **Example**
 
 ```
-http://localhost:8000/ask?q=What+is+this+system+used+for?
+
+http://localhost:8000/ask?q=why%20UNESCO%20created
+
+RESPONSE:
+{
+  "question": "why UNESCO created",
+  "answer": "Its mission is to advance peace, sustainable development, and human rights. [Section: Core Programs and World Heritage] UNESCO operates through five major program areas: education, natural sciences, social/human sciences, culture, and communication/information. Key activities include improving literacy, technical training, protecting press freedom, and preserving cultural history."
+}
 ```
 
 ---
+**Observability and evaluation using Langfuse**
+
+```
+http://localhost:3000/auth/sign-in
+
+```
+
+---
+
+
 
 ### Reload / Rebuild Documents
 
